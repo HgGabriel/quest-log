@@ -1,5 +1,4 @@
 //Seleção de elementos
-
 const todoForm = document.querySelector("#todo-form");
 const todoInput = document.querySelector("#todo-input");
 const todoList = document.querySelector("#todo-list");
@@ -10,9 +9,6 @@ const searchInput = document.querySelector("#search-input");
 const eraseBtn = document.querySelector("#erase-button");
 
 let oldInputValue;
-
-
-
 //Funcções
 
 function apagar() {
@@ -42,8 +38,7 @@ const saveTodo = (text) => {
     deleteBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>'
     todo.appendChild(deleteBtn)
 
-   
-
+  
     todoList.appendChild(todo)
 
     todoInput.value = "";
@@ -106,8 +101,6 @@ document.addEventListener("click", (e) => {
         editInput.value = todoTitle
         oldInputValue = todoTitle
     }
-
-
 
 })
 
