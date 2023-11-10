@@ -9,40 +9,57 @@ const searchInput = document.querySelector("#search-input");
 const eraseBtn = document.querySelector("#erase-button");
 
 let oldInputValue;
-//Funcções
 
+
+//Funcções
 function apagar() {
     searchInput.innerText = ""
 }
 
 const saveTodo = (text) => {
-    const todo = document.createElement("div")
-    todo.classList.add("todo")
 
-    const todoTitle = document.createElement("h3")
-    todoTitle.innerText = text
-    todo.appendChild(todoTitle)
+    const validador = JSON.parse(localStorage.getItem('todos'))
 
-    const doneBtn = document.createElement("button")
-    doneBtn.classList.add("finish-todo")
-    doneBtn.innerHTML = '<i class="fa-solid fa-check"></i>'
-    todo.appendChild(doneBtn)
-
-    const editBtn = document.createElement("button")
-    editBtn.classList.add("edit-todo")
-    editBtn.innerHTML = '<i class="fa-solid fa-pen"></i>'
-    todo.appendChild(editBtn)
-
-    const deleteBtn = document.createElement("button")
-    deleteBtn.classList.add("remove-todo")
-    deleteBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>'
-    todo.appendChild(deleteBtn)
-
+    if (validador.includes(text)){
+      window.alert("Não adicione quests repetidas :/")
+      todoInput.value = "";
+      todoInput.focus();
+    } else {
+      const todo = document.createElement("div")
+      todo.classList.add("todo")
   
-    todoList.appendChild(todo)
+      const todoTitle = document.createElement("h3")
+      todoTitle.innerText = text
+      todo.appendChild(todoTitle)
+  
+      const doneBtn = document.createElement("button")
+      doneBtn.classList.add("finish-todo")
+      doneBtn.innerHTML = '<i class="fa-solid fa-check"></i>'
+      todo.appendChild(doneBtn)
+  
+      const editBtn = document.createElement("button")
+      editBtn.classList.add("edit-todo")
+      editBtn.innerHTML = '<i class="fa-solid fa-pen"></i>'
+      todo.appendChild(editBtn)
+  
+      const deleteBtn = document.createElement("button")
+      deleteBtn.classList.add("remove-todo")
+      deleteBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>'
+      todo.appendChild(deleteBtn)
+  
+    
+      todoList.appendChild(todo)
+  
+      todoInput.value = "";
+      todoInput.focus();
+  
+      const todos = JSON.parse(localStorage.getItem('todos')) || []
+      todos.push(text)
+      localStorage.setItem('todos', JSON.stringify(todos))
+  
+      console.log(todos)
+    }
 
-    todoInput.value = "";
-    todoInput.focus();
 }
 
 const toggleForms = () => {
@@ -78,10 +95,18 @@ todoForm.addEventListener("submit", (e) => {
 
 });
 
+const removeTodo = (text) => {
+  const todos = JSON.parse(localStorage.getItem('todos')) || []
+  const updatedTodos = todos.filter(todo => todo !== text)
+  localStorage.setItem('todos', JSON.stringify(updatedTodos))
+}
+
 document.addEventListener("click", (e) => {
 
-    const targetEl = e.target
-    const parentEl = targetEl.closest("div")
+  const targetEl = e.target
+  const parentEl = targetEl.closest("div") 
+
+
     let todoTitle;
 
     if (parentEl && parentEl.querySelector("h3")){
@@ -93,7 +118,9 @@ document.addEventListener("click", (e) => {
     }
 
     if(targetEl.classList.contains("remove-todo")){
+        const removedTodo = parentEl.querySelector("h3").innerText;
         parentEl.remove()
+        removeTodo(removedTodo)
     }
     if(targetEl.classList.contains("edit-todo")){
         toggleForms()
@@ -103,6 +130,7 @@ document.addEventListener("click", (e) => {
     }
 
 })
+
 
 cancelEditBtn.addEventListener("click", (e) => {
     e.preventDefault()

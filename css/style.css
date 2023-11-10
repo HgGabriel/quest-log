@@ -8,10 +8,17 @@
     box-sizing: border-box;
 }
 
+html { 
+  background: url("../img/best-background-for-every-class-main_1.jpg") no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
 body {
-    background-image: url("../img/best-background-for-every-class-main_1.jpg");
     background-position: center;
-    background-size: cover;
+ 
 }
 
 button {
