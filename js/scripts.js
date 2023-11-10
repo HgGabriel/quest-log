@@ -1,4 +1,4 @@
-// Element Selection
+// Seleção de elementos no DOM
 const questForm = document.querySelector("#quest-form");
 const questInput = document.querySelector("#quest-input");
 const questList = document.querySelector("#quest-list");
@@ -8,34 +8,34 @@ const cancelEditBtn = document.querySelector("#cancel-edit-btn");
 const searchInput = document.querySelector("#search-input");
 const eraseBtn = document.querySelector("#erase-button");
 
-// Check and initialize localStorage
+// Verificação e inicialização do localStorage
 if (!localStorage.getItem('quests')) {
   localStorage.setItem('quests', '[]');
 }
 
-// Function to clear the search field
+// Função para limpar o campo de busca
 const clearSearch = () => {
   searchInput.innerText = "";
 }
 
-// Function to save a new quest
+// Função para salvar uma nova tarefa
 const saveQuest = (text, addToLocalStorage = true) => {
   const quests = JSON.parse(localStorage.getItem('quests')) || [];
 
-  // Check if the text already exists in the quests list
+  // Verifica se o texto já existe na lista de tarefas
   if (quests.includes(text)) {
-    window.alert("Don't add repeated quests :/");
+    window.alert("Não adicione tarefas repetidas :/");
     questInput.value = "";
     questInput.focus();
   } else {
-    // Create a new quest element and add it to the list
+    // Cria um novo elemento de tarefa e adiciona à lista
     const quest = createQuestElement(text);
     questList.appendChild(quest);
 
     questInput.value = "";
     questInput.focus();
 
-    // Add the new quest to localStorage if necessary
+    // Adiciona a nova tarefa ao localStorage, se necessário
     if (addToLocalStorage) {
       quests.push(text);
       localStorage.setItem('quests', JSON.stringify(quests));
@@ -43,7 +43,7 @@ const saveQuest = (text, addToLocalStorage = true) => {
   }
 }
 
-// Function to create a quest element
+// Função para criar um elemento de tarefa
 const createQuestElement = (text, id) => {
   const quest = document.createElement("div");
   quest.classList.add("quest");
@@ -52,7 +52,7 @@ const createQuestElement = (text, id) => {
   questTitle.innerText = text;
   quest.appendChild(questTitle);
 
-  // Create buttons to mark as done, edit, and remove the quest
+  // Cria botões para marcar como concluído, editar e remover a tarefa
   const doneBtn = createButton("complete-quest", '<i class="fa-solid fa-check"></i>', id);
   const editBtn = createButton("edit-quest", '<i class="fa-solid fa-pen"></i>', id);
   const deleteBtn = createButton("remove-quest", '<i class="fa-solid fa-xmark"></i>', id);
@@ -64,7 +64,7 @@ const createQuestElement = (text, id) => {
   return quest;
 }
 
-// Function to create a generic button
+// Função para criar um botão genérico
 const createButton = (className, innerHTML, id) => {
   const button = document.createElement("button");
   button.classList.add(className);
@@ -72,11 +72,11 @@ const createButton = (className, innerHTML, id) => {
   return button;
 }
 
-// Function to load quests from localStorage and display them in the list
+// Função para carregar tarefas do localStorage e exibi-las na lista
 const loadQuests = () => {
   const quests = JSON.parse(localStorage.getItem('quests')) || [];
 
-  // Clear the list before adding the quests
+  // Limpa a lista antes de adicionar as tarefas
   questList.innerHTML = "";
 
   quests.forEach((questText, index) => {
@@ -85,14 +85,14 @@ const loadQuests = () => {
   });
 }
 
-// Function to toggle between add and edit forms
+// Função para alternar entre os formulários de adição e edição
 const toggleForms = () => {
   editForm.classList.toggle("hide");
   questForm.classList.toggle("hide");
   questList.classList.toggle("hide");
 }
 
-// Function to update the text of a quest
+// Função para atualizar o texto de uma tarefa
 const updateQuest = (text) => {
   const quests = document.querySelectorAll(".quest");
   quests.forEach((quest) => {
@@ -103,7 +103,7 @@ const updateQuest = (text) => {
   });
 }
 
-// Events
+// Eventos
 questForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const inputValue = questInput.value;
@@ -119,7 +119,7 @@ document.addEventListener("click", (e) => {
   if (parentEl && parentEl.querySelector("h3")) {
     const questTitle = parentEl.querySelector("h3").innerText;
 
-    // Mark as done, remove, or edit the quest, depending on the clicked button
+    // Marcar como concluído, remover ou editar a tarefa, dependendo do botão clicado
     if (targetEl.classList.contains("complete-quest")) {
       parentEl.classList.toggle("done");
     }
@@ -152,19 +152,19 @@ editForm.addEventListener("submit", (e) => {
   toggleForms();
 });
 
-// Function to remove a quest from localStorage
+// Função para remover uma tarefa do localStorage
 const removeQuestFromLocalStorage = (text) => {
   const quests = JSON.parse(localStorage.getItem('quests')) || [];
   const updatedQuests = quests.filter(quest => quest !== text);
   localStorage.setItem('quests', JSON.stringify(updatedQuests));
 }
 
-// Function to update a quest in localStorage
+// Função para atualizar uma tarefa no localStorage
 const updateQuestInLocalStorage = (id, newText) => {
   const quests = JSON.parse(localStorage.getItem('quests')) || [];
   const updatedQuests = quests.map((quest, index) => (index === id ? newText : quest));
   localStorage.setItem('quests', JSON.stringify(updatedQuests));
 }
 
-// Load quests from localStorage
+// Carrega tarefas do localStorage
 loadQuests();

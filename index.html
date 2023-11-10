@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Missões</title>
-    <!-- CSS DO PROJETO -->
+    <!-- Estilos do projeto -->
     <link rel="stylesheet" href="css/style.css">
-    <!-- SCRIPTS DO PROJETO -->
+    <!-- Scripts do projeto -->
     <script src="js/scripts.js" defer></script>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
@@ -20,6 +20,7 @@
         <header>
             <h1>Missões</h1>
         </header>
+        <!-- Formulário para adicionar missões -->
         <form id="quest-form">
             <p>Adicione a sua missão:</p>
             <div class="form-control">
@@ -29,6 +30,7 @@
                 </button>
             </div>
         </form>
+        <!-- Formulário para editar missões (inicialmente oculto) -->
         <form id="edit-form" class="hide">
             <p>Edite a sua missão:</p>
             <div class="form-control">
@@ -39,7 +41,9 @@
             </div>
             <button id="cancel-edit-btn">Cancelar</button>
         </form>
+        <!-- Barra de ferramentas -->
         <div id="toolbar">
+            <!-- Pesquisa -->
             <div id="search">
                 <h4>Pesquisar:</h4>
                 <form>
@@ -49,6 +53,7 @@
                     </button>
                 </form>
             </div>
+            <!-- Filtro -->
             <div id="filter">
                 <h4>Filtrar:</h4>
                 <select id="filter-select">
@@ -58,6 +63,7 @@
                 </select>
             </div>
         </div>
+        <!-- Lista de missões -->
         <div id="quest-list"></div>
     </div>
 </body>
