@@ -1,169 +1,169 @@
 /* Geral */
 
 * {
-    padding: 0;
-    margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    color: #333;
-    box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #333;
+  box-sizing: border-box;
 }
 
 html { 
-  background: url("../img/best-background-for-every-class-main_1.jpg") no-repeat center center fixed; 
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
+background: url("../img/best-background-for-every-class-main_1.jpg") no-repeat center center fixed; 
+-webkit-background-size: cover;
+-moz-background-size: cover;
+-o-background-size: cover;
+background-size: cover;
 }
 
 body {
-    background-position: center;
- 
+  background-position: center;
 }
 
 button {
-    background-color: #fdfdfd;
-    color: #102f5e;
-    border: 2px solid #102f5e;
-    padding: .3rem .6rem;
-    font-size: 1rem;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: 0.4s;
+  background-color: #fdfdfd;
+  color: #102f5e;
+  border: 2px solid #102f5e;
+  padding: .3rem .6rem;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.4s;
 }
 
 button:hover {
-    background-color: #102f5e;
-    color: #fff;
+  background-color: #102f5e;
+  color: #fff;
 }
 
-button:hover>i {
-    color: #fff
+button:hover > i {
+  color: #fff;
 }
 
 button i {
-    color: #102f5e;
-    font-weight: bold;
-    pointer-events: none;
+  color: #102f5e;
+  font-weight: bold;
+  pointer-events: none;
 }
 
 input, select {
-    padding: .25rem .25rem;
+  padding: .25rem .25rem;
 }
 
 .hide {
-    display: none;
+  display: none;
 }
 
-/*Todo Header */
+/* Missões Header */
 
-.todo-container{
-    max-width: 450px;
-    margin: 3rem auto ;
-    background-color: #fdfdfd;
-    padding: 1.5rem;
-    border-radius: 15px;
+.quest-container {
+  max-width: 450px;
+  margin: 3rem auto ;
+  background-color: #fdfdfd;
+  padding: 1.5rem;
+  border-radius: 15px;
 }
 
-.todo-container header {
-    text-align: center;
-    padding: 0 1rem 1rem;
-    border-bottom: 1px solid #ccc;
+.quest-container header {
+  text-align: center;
+  padding: 0 1rem 1rem;
+  border-bottom: 1px solid #ccc;
 }
 
-/* Todo Form */
+/* Missões Form */
 
-#todo-form, #edit-form {
-    padding: 1rem;
-    border-bottom: 1px solid #ccc;
+#quest-form, #edit-form {
+  padding: 1rem;
+  border-bottom: 1px solid #ccc;
 }
 
-#todo-form p,
-#edit-form p {
-    margin-bottom: 0.5rem;
-    font-weight: bold;
+#quest-form p, #edit-form p {
+  margin-bottom: 0.5rem;
+  font-weight: bold;
 }
 
 .form-control {
-    display: flex;
+  display: flex;
 }
 
 .form-control input {
-    margin-right: 0.3rem;
+  margin-right: 0.3rem;
 }
 
 #cancel-edit-btn {
-    margin-top: 1rem;
+  margin-top: 1rem;
 }
 
-/* TODO toolbar */
+/* Missões toolbar */
 
 #toolbar {
-    padding: 1rem;
-    border-bottom: 1px solid #ccc;
-    display: flex;
+  padding: 1rem;
+  border-bottom: 1px solid #ccc;
+  display: flex;
 }
 
 #toolbar h4 {
-    margin-bottom: .5rem;
+  margin-bottom: .5rem;
 }
 
 #search {
-    border-right: 1px solid #ddd;
-    padding-right: 1rem;
-    margin-right: 1rem;
-    width: 65%;
-    display: flex;
-    flex-direction: column;
+  border-right: 1px solid #ddd;
+  padding-right: 1rem;
+  margin-right: 1rem;
+  width: 65%;
+  display: flex;
+  flex-direction: column;
 }
 
 #search form {
-    display: flex;
+  display: flex;
 }
 
 #search input {
-    width: 100%;
-    margin-right: 0.3rem;
+  width: 100%;
+  margin-right: 0.3rem;
 }
 
 #filter {
-    width: 35%;
-    display: flex;
-    flex-direction: column;
+  width: 35%;
+  display: flex;
+  flex-direction: column;
 }
- #filter select {
-    flex: 1;
- }
 
- /* Todo List */
+#filter select {
+  flex: 1;
+}
 
- .todo {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding: 1rem;
-    border-bottom:1px solid #ddd ;
-    transition: 0.3s;
- }
+/* Missões List */
 
- .todo h3 {
-    flex: 1;
-    font-size: 0.9rem;
- }
+.quest {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 1rem;
+  border-bottom:1px solid #ddd ;
+  transition: 0.3s;
+}
 
- .todo button {
-    margin-left: 0.4rem;
- }
+.quest h3 {
+  flex: 1;
+  font-size: 0.9rem;
+}
 
- .done {
-    background-color: #395169;
- }
+.quest button {
+  margin-left: 0.4rem;
+}
 
- .done h3 {
-    color: fff;
-    text-decoration: line-through;
-    font-style: italic;
- }
+.done {
+  background-color: #395169;
+  color: #fff; /* Adicionado para garantir visibilidade do texto */
 
+}
+
+.done h3 {
+  color: #fff;
+  text-decoration: line-through;
+  font-style: italic;
+}

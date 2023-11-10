@@ -1,151 +1,170 @@
-//Seleção de elementos
-const todoForm = document.querySelector("#todo-form");
-const todoInput = document.querySelector("#todo-input");
-const todoList = document.querySelector("#todo-list");
+// Element Selection
+const questForm = document.querySelector("#quest-form");
+const questInput = document.querySelector("#quest-input");
+const questList = document.querySelector("#quest-list");
 const editForm = document.querySelector("#edit-form");
 const editInput = document.querySelector("#edit-input");
 const cancelEditBtn = document.querySelector("#cancel-edit-btn");
 const searchInput = document.querySelector("#search-input");
 const eraseBtn = document.querySelector("#erase-button");
 
-let oldInputValue;
-
-
-//Funcções
-function apagar() {
-    searchInput.innerText = ""
+// Check and initialize localStorage
+if (!localStorage.getItem('quests')) {
+  localStorage.setItem('quests', '[]');
 }
 
-const saveTodo = (text) => {
+// Function to clear the search field
+const clearSearch = () => {
+  searchInput.innerText = "";
+}
 
-    const validador = JSON.parse(localStorage.getItem('todos'))
+// Function to save a new quest
+const saveQuest = (text, addToLocalStorage = true) => {
+  const quests = JSON.parse(localStorage.getItem('quests')) || [];
 
-    if (validador.includes(text)){
-      window.alert("Não adicione quests repetidas :/")
-      todoInput.value = "";
-      todoInput.focus();
-    } else {
-      const todo = document.createElement("div")
-      todo.classList.add("todo")
-  
-      const todoTitle = document.createElement("h3")
-      todoTitle.innerText = text
-      todo.appendChild(todoTitle)
-  
-      const doneBtn = document.createElement("button")
-      doneBtn.classList.add("finish-todo")
-      doneBtn.innerHTML = '<i class="fa-solid fa-check"></i>'
-      todo.appendChild(doneBtn)
-  
-      const editBtn = document.createElement("button")
-      editBtn.classList.add("edit-todo")
-      editBtn.innerHTML = '<i class="fa-solid fa-pen"></i>'
-      todo.appendChild(editBtn)
-  
-      const deleteBtn = document.createElement("button")
-      deleteBtn.classList.add("remove-todo")
-      deleteBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>'
-      todo.appendChild(deleteBtn)
-  
-    
-      todoList.appendChild(todo)
-  
-      todoInput.value = "";
-      todoInput.focus();
-  
-      const todos = JSON.parse(localStorage.getItem('todos')) || []
-      todos.push(text)
-      localStorage.setItem('todos', JSON.stringify(todos))
-  
-      console.log(todos)
+  // Check if the text already exists in the quests list
+  if (quests.includes(text)) {
+    window.alert("Don't add repeated quests :/");
+    questInput.value = "";
+    questInput.focus();
+  } else {
+    // Create a new quest element and add it to the list
+    const quest = createQuestElement(text);
+    questList.appendChild(quest);
+
+    questInput.value = "";
+    questInput.focus();
+
+    // Add the new quest to localStorage if necessary
+    if (addToLocalStorage) {
+      quests.push(text);
+      localStorage.setItem('quests', JSON.stringify(quests));
     }
-
+  }
 }
 
+// Function to create a quest element
+const createQuestElement = (text, id) => {
+  const quest = document.createElement("div");
+  quest.classList.add("quest");
+
+  const questTitle = document.createElement("h3");
+  questTitle.innerText = text;
+  quest.appendChild(questTitle);
+
+  // Create buttons to mark as done, edit, and remove the quest
+  const doneBtn = createButton("complete-quest", '<i class="fa-solid fa-check"></i>', id);
+  const editBtn = createButton("edit-quest", '<i class="fa-solid fa-pen"></i>', id);
+  const deleteBtn = createButton("remove-quest", '<i class="fa-solid fa-xmark"></i>', id);
+
+  quest.appendChild(doneBtn);
+  quest.appendChild(editBtn);
+  quest.appendChild(deleteBtn);
+
+  return quest;
+}
+
+// Function to create a generic button
+const createButton = (className, innerHTML, id) => {
+  const button = document.createElement("button");
+  button.classList.add(className);
+  button.innerHTML = innerHTML;
+  return button;
+}
+
+// Function to load quests from localStorage and display them in the list
+const loadQuests = () => {
+  const quests = JSON.parse(localStorage.getItem('quests')) || [];
+
+  // Clear the list before adding the quests
+  questList.innerHTML = "";
+
+  quests.forEach((questText, index) => {
+    const quest = createQuestElement(questText, index);
+    questList.appendChild(quest);
+  });
+}
+
+// Function to toggle between add and edit forms
 const toggleForms = () => {
-    editForm.classList.toggle("hide")
-    todoForm.classList.toggle("hide")
-    todoList.classList.toggle("hide")
+  editForm.classList.toggle("hide");
+  questForm.classList.toggle("hide");
+  questList.classList.toggle("hide");
 }
 
-const updateTodo = (text) => {
-    
-    const todos = document.querySelectorAll(".todo")
-
-    todos.forEach((todo) => {
-
-        let todoTitle = todo.querySelector("h3")
-
-        if (todoTitle.innerText === oldInputValue){
-            todoTitle.innerText = text
-        }
-    })
-}
-
-
-// Eventos
-todoForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-
-    const inputValue = todoInput.value;
-
-    if (inputValue) {
-        saveTodo(inputValue)
+// Function to update the text of a quest
+const updateQuest = (text) => {
+  const quests = document.querySelectorAll(".quest");
+  quests.forEach((quest) => {
+    const questTitle = quest.querySelector("h3");
+    if (questTitle.innerText === oldValueInput) {
+      questTitle.innerText = text;
     }
+  });
+}
 
+// Events
+questForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const inputValue = questInput.value;
+  if (inputValue) {
+    saveQuest(inputValue);
+  }
 });
 
-const removeTodo = (text) => {
-  const todos = JSON.parse(localStorage.getItem('todos')) || []
-  const updatedTodos = todos.filter(todo => todo !== text)
-  localStorage.setItem('todos', JSON.stringify(updatedTodos))
-}
-
 document.addEventListener("click", (e) => {
+  const targetEl = e.target;
+  const parentEl = targetEl.closest("div");
 
-  const targetEl = e.target
-  const parentEl = targetEl.closest("div") 
+  if (parentEl && parentEl.querySelector("h3")) {
+    const questTitle = parentEl.querySelector("h3").innerText;
 
-
-    let todoTitle;
-
-    if (parentEl && parentEl.querySelector("h3")){
-        todoTitle = parentEl.querySelector("h3").innerText;
+    // Mark as done, remove, or edit the quest, depending on the clicked button
+    if (targetEl.classList.contains("complete-quest")) {
+      parentEl.classList.toggle("done");
     }
 
-    if(targetEl.classList.contains("finish-todo")){
-        parentEl.classList.toggle("done")
+    if (targetEl.classList.contains("remove-quest")) {
+      parentEl.remove();
+      removeQuestFromLocalStorage(questTitle);
     }
 
-    if(targetEl.classList.contains("remove-todo")){
-        const removedTodo = parentEl.querySelector("h3").innerText;
-        parentEl.remove()
-        removeTodo(removedTodo)
+    if (targetEl.classList.contains("edit-quest")) {
+      toggleForms();
+      editInput.value = questTitle;
+      oldValueInput = questTitle;
     }
-    if(targetEl.classList.contains("edit-todo")){
-        toggleForms()
-
-        editInput.value = todoTitle
-        oldInputValue = todoTitle
-    }
-
-})
-
+  }
+});
 
 cancelEditBtn.addEventListener("click", (e) => {
-    e.preventDefault()
-
-    toggleForms()
-})
+  e.preventDefault();
+  toggleForms();
+});
 
 editForm.addEventListener("submit", (e) => {
-    e.preventDefault()
+  e.preventDefault();
+  const editInputValue = editInput.value;
+  if (editInputValue) {
+    updateQuest(editInputValue);
+    updateQuestInLocalStorage(oldValueInput, editInputValue);
+  }
+  toggleForms();
+});
 
-    const editInputValue = editInput.value
+// Function to remove a quest from localStorage
+const removeQuestFromLocalStorage = (text) => {
+  const quests = JSON.parse(localStorage.getItem('quests')) || [];
+  const updatedQuests = quests.filter(quest => quest !== text);
+  localStorage.setItem('quests', JSON.stringify(updatedQuests));
+}
 
-    if(editInput){
-        updateTodo(editInputValue)
-    }
+// Function to update a quest in localStorage
+const updateQuestInLocalStorage = (id, newText) => {
+  const quests = JSON.parse(localStorage.getItem('quests')) || [];
+  const updatedQuests = quests.map((quest, index) => (index === id ? newText : quest));
+  localStorage.setItem('quests', JSON.stringify(updatedQuests));
+}
 
-    toggleForms()
-})
+// Load quests from localStorage
+loadQuests();
